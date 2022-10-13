@@ -1,0 +1,23 @@
+.grid-content{
+    display: grid;
+    grid-template-areas:
+    "menu header"
+    "menu  main";
+  grid-template-rows: 82px 1fr;
+  grid-template-columns: 200px 1fr;
+}
+
+.grid-header{
+grid-area: header;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.grid-menu{
+grid-area: menu;
+}
+
+.grid-body{
+grid-area: main;
+}

@@ -1,0 +1,27 @@
+.body-container{
+padding: 30px;
+}
+
+.alumnos-form{
+    grid-area: form;
+    margin-bottom: 20px;
+}
+    
+.alumnos-list{
+    grid-area: list;
+    
+}
+
+.td-image img{
+    width: 50px;
+    height: auto;
+}
+.activo{
+color:#1b9f1b;
+}
+.inactivo{
+    color:#a12a2a;
+}
+.row{
+    padding: 10px;
+}

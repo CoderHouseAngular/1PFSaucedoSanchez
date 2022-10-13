@@ -1,0 +1,111 @@
+<div class="body-container row">
+
+    <div class="alumnos-form col-md-12">
+        <form [formGroup]="alumnoData" (ngSubmit)="crudAlumno()">
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" formControlName="nombres">
+                    <input type="hidden" class="form-control" id="matricula" formControlName="matricula" value="0">
+                </div>
+               
+                <div class="form-group col-md-5">
+                    <label for="nombre" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="apellidos" formControlName="apellidos">
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="nombre" class="form-label">Fecha de Nacimiento</label>
+                    <input type="date" class="form-control" id="fecha-nacimiento" formControlName="fechaNacimiento">
+                </div>
+               
+                <div class="form-group col-md-5">
+                    <label for="nombre" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" formControlName="email">
+                    <div class="error" *ngIf="alumnoData.get('email')?.errors?.['email']">
+                        <small class="error">Correo incorrecto</small>
+                    </div>    
+                </div>
+                  
+            </div>
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="nombre" class="form-label">Genero</label>
+                    <select  class="form-control" id="genero" formControlName="genero">
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                    </select>
+                </div>
+                   
+                
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    
+                    <mat-slide-toggle color="primary"  formControlName="activo">
+                        Activo
+                    </mat-slide-toggle>
+                </div>
+            </div>
+           
+            <button type="submit" class="btn btn-info" [disabled]="alumnoData.invalid" >{{crudButtonText}}</button>
+
+        </form>
+    </div>
+    <div class="alumnos-list col-md-12">
+
+        <table mat-table [dataSource]="alumnosSource" class="col-md-12">
+          
+            <ng-container matColumnDef="genero" >
+                <th mat-header-cell *matHeaderCellDef appFontSize>Genero</th>
+                <td mat-cell *matCellDef="let alumno" class="td-image">
+                    <div  *ngIf="alumno.Genero=='masculino'; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock><img title="icon" src="https://cdn2.iconfinder.com/data/icons/avatars-2-7/128/20-512.png"/></ng-template>
+                    <ng-template #elseBlock><img title="icon" src="https://cdn2.iconfinder.com/data/icons/avatars-2-7/128/27-512.png"/> </ng-template>                
+                </td>
+                
+            </ng-container>  
+
+            <ng-container matColumnDef="nombre-completo" >
+                <th mat-header-cell *matHeaderCellDef appFontSize>Nombre Completo</th>
+                <td mat-cell *matCellDef="let alumno">{{alumno | nombreCompleto}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="edad" >
+                <th mat-header-cell *matHeaderCellDef appFontSize>Edad</th>
+                <td mat-cell *matCellDef="let alumno">{{calculateAge(alumno.FechaNacimiento)}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email" >
+                <th mat-header-cell *matHeaderCellDef appFontSize>Email</th>
+                <td mat-cell *matCellDef="let alumno">{{alumno.Email}}</td>
+            </ng-container>
+            <ng-container matColumnDef="activo" >
+                <th mat-header-cell *matHeaderCellDef appFontSize>Activo</th>
+                <td mat-cell *matCellDef="let alumno">
+                <div  *ngIf="alumno.Activo==true; then thenBlock else elseBlock"></div>
+                    <ng-template #thenBlock><mat-icon title="Activo" class="activo">mobile_friendly</mat-icon></ng-template>
+                    <ng-template #elseBlock><mat-icon title="Inactivo" class="inactivo">mobile_off</mat-icon></ng-template>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones" >
+                <th mat-header-cell *matHeaderCellDef appFontSize>Acciones</th>
+                <td mat-cell *matCellDef="let alumno">
+                    <button mat-icon-button (click)="editAlumno(alumno.Matricula)">
+                        <mat-icon title="Editar">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteAlumno(alumno.Matricula)">
+                        <mat-icon title="Borrar">delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+    </div>
+</div>
